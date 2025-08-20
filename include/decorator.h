@@ -51,6 +51,9 @@ extern "C"{
 #define _italic "\x1b[3m"
 #define _underline "\x1b[4m"
 #define _strikeline "\x1b[9m"
+#define _overline "\x1b[53m"
+#define _faint "\x1b[2m"
+#define _sparkle "\x1b[5m"
 #define _reverse "\x1b[7m"
 #define _cancel_foreground "\x1b[39m"
 #define _cancel_background "\x1b[49m"
@@ -58,6 +61,9 @@ extern "C"{
 #define _cancel_italic "\x1b[23m"
 #define _cancel_underline "\x1b[24m"
 #define _cancel_strikeline "\x1b[29m"
+#define _cancel_overline "\x1b[55m"
+#define _cancel_faint "\x1b[22m"
+#define _cancel_sparkle "\x1b[25m"
 #define _end "\x1b[0m"
 
 #ifdef __cplusplus
