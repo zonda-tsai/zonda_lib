@@ -11,7 +11,7 @@ install:
 	@cp $(FILES) $(INSTALL_PATH)
 	@printf "Done\n"
 	@echo "Files location: $(INSTALL_PATH)"
-	@echo "To use the headerfiles, using '#include <$(INSTALL_DIR_NAME)/[name].h>'"
+	@echo "To use the headerfiles, using '#include <$(DIR_NAME)/[name].h>'"
 
 uninstall:
 	@printf "Uninstalling...\n"
