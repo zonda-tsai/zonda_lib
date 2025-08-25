@@ -1,5 +1,5 @@
 PREFIX = /usr/local
-DIR_NAME = zonda_unicode_lib
+DIR_NAME = zonda_lib
 INSTALL_PATH = $(PREFIX)/include/$(DIR_NAME)
 FILES = $(wildcard include/*.h)
 
