@@ -138,7 +138,7 @@ bool isRead(const char* file_name){
 
 bool isWrite(const char* file_name){
 	DWORD attrs = GetFileAttributesA(file_name);
-	if(attrs == INVALID_FILE_ATTRIBUTE) return false;
+	if(attrs == INVALID_FILE_ATTRIBUTES) return false;
 	return !(attrs & FILE_ATTRIBUTE_READONLY);
 }
 
