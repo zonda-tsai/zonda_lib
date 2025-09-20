@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 #include <string.h>
-#include <../glyph/glyph_lib.h>
+#include "../glyph/glyph_lib.h"
 
 extern const char *divider[];
 
