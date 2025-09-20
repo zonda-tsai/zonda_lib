@@ -1,6 +1,6 @@
 PREFIX = /usr/local
 DIR_NAME = zonda_lib
-INSTALL_PATH = $(PREFIX)/include/$(DIR_NAME)
+INSTALL_PATH = $(PREFIX)/include
 
 # C 編譯器和旗標
 CC = gcc
