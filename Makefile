@@ -41,19 +41,30 @@ clean:
 	@rm -f $(OBJS) $(LIB_NAME)
 
 # 安裝指令
-install:
-	@echo "Installing header files..."
+install: all # 先確定函式庫已經編譯完成
+	@echo "Installing header files and library..."
+	# 建立標頭檔目錄
 	@mkdir -p $(INSTALL_PATH)/glyph
 	@mkdir -p $(INSTALL_PATH)/layout
 	@mkdir -p $(INSTALL_PATH)/file_system
+	# 建立函式庫檔案目錄
+	@mkdir -p $(PREFIX)/lib
+
+	# 複製標頭檔
 	@cp glyph/*.h $(INSTALL_PATH)/glyph
 	@cp layout/*.h $(INSTALL_PATH)/layout
 	@cp file_system/*.h $(INSTALL_PATH)/file_system
+	
+	# 複製編譯好的函式庫檔案
+	@cp $(LIB_NAME) $(PREFIX)/lib/
+
 	@echo "Installation complete."
 	@echo "Headers are in: $(INSTALL_PATH)"
+	@echo "Library is in: $(PREFIX)/lib"
 
 # 解除安裝指令
 uninstall:
-	@echo "Uninstalling header files..."
-	@rm -rf $(INSTALL_PATH)
+	@echo "Uninstalling header files and library..."
+	@rm -rf $(INSTALL_PATH)/glyph $(INSTALL_PATH)/layout $(INSTALL_PATH)/file_system
+	@rm -f $(PREFIX)/lib/$(LIB_NAME)
 	@echo "Uninstallation complete."
