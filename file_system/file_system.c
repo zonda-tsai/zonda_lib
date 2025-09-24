@@ -15,22 +15,6 @@
 
 const char *home = NULL;
 
-static void clean(char** a){
-	int i;
-	if(a == NULL) return;
-	for(i = 0 ; a[i] != NULL ; i++)
-		free(a[i]);
-	free(a);
-}
-
-static inline size_t min(size_t a, size_t b){
-	return (a > b) ? b : a;
-}
-
-static inline size_t max(size_t a, size_t b){
-	return (a > b) ? a : b;
-}
-
 int cmp(const void *t1, const void *t2){
 	const char *a = *(const char**)t1;
 	const char *b = *(const char**)t2;
