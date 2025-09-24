@@ -3,7 +3,6 @@
 
 void typesetting_str_init();
 void delete_new_line(char*);
-void clean(char**);
 long width(const char*);
 long max_vocab(const char*);
 long strcut_index(const char*, long);
