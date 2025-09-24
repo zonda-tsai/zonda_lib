@@ -8,6 +8,7 @@
 #include <wctype.h>
 #include <locale.h>
 #include "typesetting_str.h"
+#include "../common/common.h"
 
 void typesetting_str_init(){
 	setlocale(LC_ALL, "");
