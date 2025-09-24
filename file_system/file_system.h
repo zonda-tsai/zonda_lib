@@ -7,7 +7,6 @@
 
 extern const char *home;
 
-void clean(char**);
 bool getHome();
 char* getName(const char*);
 const char* getType(const char*);
