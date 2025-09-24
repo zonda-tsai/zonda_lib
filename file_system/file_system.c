@@ -4,6 +4,7 @@
 #include <string.h>
 #include <limits.h>
 #include "file_system.h"
+#include "../common/common.h"
 
 #ifdef _WIN32
 #include <windows.h>
