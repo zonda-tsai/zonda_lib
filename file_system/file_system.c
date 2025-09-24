@@ -15,7 +15,7 @@
 
 const char *home = NULL;
 
-void clean(char** a){
+static void clean(char** a){
 	int i;
 	if(a == NULL) return;
 	for(i = 0 ; a[i] != NULL ; i++)
@@ -23,11 +23,11 @@ void clean(char** a){
 	free(a);
 }
 
-inline size_t min(size_t a, size_t b){
+static inline size_t min(size_t a, size_t b){
 	return (a > b) ? b : a;
 }
 
-inline size_t max(size_t a, size_t b){
+static inline size_t max(size_t a, size_t b){
 	return (a > b) ? a : b;
 }
 
