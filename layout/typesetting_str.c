@@ -23,7 +23,7 @@ void delete_new_line(char* content){
 	memcpy(content, temp, j);
 }
 
-void clean(char** result){
+static void clean(char** result){
 	int i;
 	if(result == NULL) return;
 	for(i = 0 ; result[i] != NULL ; i++)
