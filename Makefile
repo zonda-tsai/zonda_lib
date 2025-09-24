@@ -7,7 +7,7 @@ CC = gcc
 CFLAGS = -Wall -Wextra -I.
 
 # 自動尋找所有 .c 原始碼檔案
-SRCS := $(wildcard glyph/*.c) $(wildcard layout/*.c) $(wildcard file_system/*.c)
+SRCS := $(wildcard glyph/*.c) $(wildcard layout/*.c) $(wildcard file_system/*.c) $(wildcard common/*.c)
 # 自動將 .c 檔名轉換為 .o 目的檔名
 OBJS := $(SRCS:.c=.o)
 
@@ -39,10 +39,12 @@ install: all
 	@mkdir -p $(INSTALL_PATH)/glyph
 	@mkdir -p $(INSTALL_PATH)/layout
 	@mkdir -p $(INSTALL_PATH)/file_system
+	@mkdir -p $(INSTALL_PATH)/common
 	@mkdir -p $(PREFIX)/lib
 	@cp glyph/*.h $(INSTALL_PATH)/glyph
 	@cp layout/*.h $(INSTALL_PATH)/layout
 	@cp file_system/*.h $(INSTALL_PATH)/file_system
+	@cp common/*.h $(INSTALL_PATH)/common
 	@cp $(LIB_NAME) $(PREFIX)/lib/
 
 	@echo "Installation complete."
@@ -52,6 +54,6 @@ install: all
 # 解除安裝指令
 uninstall:
 	@echo "Uninstalling header files and library..."
-	@rm -rf $(INSTALL_PATH)/glyph $(INSTALL_PATH)/layout $(INSTALL_PATH)/file_system
+	@rm -rf $(INSTALL_PATH)/glyph $(INSTALL_PATH)/layout $(INSTALL_PATH)/file_system $(wildcard common/*.c)
 	@rm -f $(PREFIX)/lib/$(LIB_NAME)
 	@echo "Uninstallation complete."
