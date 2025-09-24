@@ -23,14 +23,6 @@ void delete_new_line(char* content){
 	memcpy(content, temp, j);
 }
 
-static void clean(char** result){
-	int i;
-	if(result == NULL) return;
-	for(i = 0 ; result[i] != NULL ; i++)
-		free(result[i]);
-	free(result);
-}
-
 long width(const char* content){
 	mbstate_t state = {0};
 	const char *ptr = content;
