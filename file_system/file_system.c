@@ -298,8 +298,8 @@ char** dir_content(const char* dirloc){
 		free(a);
 		return NULL;
 	}
-	a[n] = NULL;
 	char **temp = realloc(a, (n + 1) * sizeof(char*));
+	a[n] = NULL;
 	if(temp == NULL){
 		clean(a);
 		return NULL;
