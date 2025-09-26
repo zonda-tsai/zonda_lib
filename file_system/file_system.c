@@ -187,13 +187,13 @@ char** dir_content(const char* dirloc){
 		return NULL;
 	}
 	
-	a[n] = NULL;
 	char** temp = realloc(a, (n + 1) * sizeof(char*));
 	if(temp == NULL) {
 		clean(a);
 		return NULL;
 	}
 	a = temp;
+	a[n] = NULL;
 
 	sort(a, n); // 如果需要排序，取消註解此行
 	return a;
@@ -299,12 +299,12 @@ char** dir_content(const char* dirloc){
 		return NULL;
 	}
 	char **temp = realloc(a, (n + 1) * sizeof(char*));
-	a[n] = NULL;
 	if(temp == NULL){
 		clean(a);
 		return NULL;
 	}
 	a = temp;
+	a[n] = NULL;
 	sort(a, n);
 	return a;
 }
