@@ -9,6 +9,11 @@
 #include <locale.h>
 #include "typesetting_str.h"
 #include "../common/common.h"
+#include "../common/wcwidth.h"
+
+#ifdef _WIN32
+#include <windows.h>
+#endif
 
 void typesetting_str_init(){
 	setlocale(LC_ALL, "");
@@ -25,10 +30,29 @@ void delete_new_line(char* content){
 }
 
 long width(const char* content){
+	if(content == NULL) return 0;
+	long width = 0;
+#ifdef _WIN32
+	int required_chars = MultiByteToWideChar(CP_UTF8, 0, content, -1, NULL, 0);
+    if(required_chars == 0) return strlen(content);
+
+    wchar_t* wide_str = malloc(required_chars * sizeof(wchar_t));
+    if(wide_str == NULL){
+        return strlen(content);
+    }
+
+    MultiByteToWideChar(CP_UTF8, 0, content, -1, wide_str, required_chars);
+
+    for(int i = 0; wide_str[i] != L'\0'; ++i) {
+        int w = wcwidth(wide_str[i]);
+        if (w > 0) width += w;
+    }
+
+    free(wide_str);
+#else
 	mbstate_t state = {0};
 	const char *ptr = content;
 	wchar_t wc;
-	long width = 0;
 	size_t bytes;
 
 	while((bytes = mbrtowc(&wc, ptr, MB_CUR_MAX, &state)) > 0){
@@ -37,20 +61,47 @@ long width(const char* content){
 			width += w;
 		ptr += bytes;
 	}
+#endif
 	return width;
 }
 
 long max_vocab(const char* content){
+	long max = -1, vocabulary = 0;
+#ifdef _WIN32
+	int required_chars = MultiByteToWideChar(CP_UTF8, 0, content, -1, NULL, 0);
+    if(required_chars == 0) return strlen(content);
+
+    wchar_t* wide_str = malloc(required_chars * sizeof(wchar_t));
+    if (wide_str == NULL) {
+        return strlen(content);
+    }
+
+    MultiByteToWideChar(CP_UTF8, 0, content, -1, wide_str, required_chars);
+	int i;
+	for(i = 0 ; wide_str[i] != L'\0' ; i++){
+		wchar_t wc = wide_str[i];
+		int w = wcwidth(wc);
+		if(w < 0) w = 2;
+		else if(w == 1 && !iswpunct(wc) && !iswspace(wc))
+			vocabulary++;
+		else{
+			if(vocabulary > max)
+				max = vocabulary;
+			vocabulary = 0;
+			if(w > max) max = w;
+		}
+	}
+	free(wide_str);
+#else
 	mbstate_t state = {0};
 	const char *ptr = content;
 	wchar_t wc;
-	long max = -1, vocabulary = 0;
 	size_t bytes;
 
 	while((bytes = mbrtowc(&wc, ptr, MB_CUR_MAX, &state)) > 0){
 		int w = wcwidth(wc);
 		if(w < 0) w = 2;
-		else if(w == 1 && !iswpunct(w) && !iswspace(w))
+		else if(w == 1 && !iswpunct(wc) && !iswspace(wc))
 			vocabulary++;
 		else{
 			if(vocabulary > max)
@@ -60,16 +111,47 @@ long max_vocab(const char* content){
 		}
 		ptr += bytes;
 	}
-	
+#endif
 	return (vocabulary > max) ? vocabulary : max;
 }
 
 long strcut_index(const char *content, long show_wid){
+	size_t i = 0, bytes = 0, w1 = 0, w2 = 0;
+	long width = 0;
+#ifdef _WIN32
+	size_t len = strlen(content);
+    while(i < len){		
+		if(((unsigned char)content[i] & 0xE0) == 0xC0) bytes = 2;
+		else if(((unsigned char)content[i] & 0xF0) == 0xE0) bytes = 3;
+		else if(((unsigned char)content[i] & 0xF8) == 0xF0) bytes = 4;
+		else bytes = 1;
+
+		if(bytes + i > len) break;
+
+		wchar_t wc;
+		
+		MultiByteToWideChar(CP_UTF8, 0, content + i, bytes, &wc, 1);
+
+		int w = wcwidth(wc);
+		if(w < 0) w = 2;
+		else if(wc <= 0x7F){
+			if(iswspace(wc) || iswpunct(wc))
+				w1 = i;
+			else if(w2 > w1)
+				w1 = i;
+		}
+		else if(w == 1)
+			w1 = i;
+		else
+			w2 = i;
+		width += w;
+		i += bytes;
+		if(width > show_wid) break;
+	}
+#else
 	mbstate_t state = {0};
 	const char *ptr = content;
 	wchar_t wc;
-	long width = 0;
-	size_t i = 0, bytes = 0, w1 = 0, w2 = 0;
 
 	while((bytes = mbrtowc(&wc, ptr, MB_CUR_MAX, &state)) > 0){
 		int w = wcwidth(wc);
@@ -89,6 +171,7 @@ long strcut_index(const char *content, long show_wid){
 		i += bytes;
 		if(width > show_wid) break;
 	}
+#endif
 	if(width <= show_wid)
 		return i;
 	if(w1 == w2 && w2 == 0)
@@ -97,11 +180,34 @@ long strcut_index(const char *content, long show_wid){
 }
 
 long strict_strcut_index(const char *content, long show_wid){
+	size_t i = 0, bytes = 0;
+	long width = 0;
+#ifdef _WIN32
+	size_t len = strlen(content);
+	while(i < len){
+		if(((unsigned char)content[i] & 0xE0) == 0xC0) bytes = 2;
+		else if(((unsigned char)content[i] & 0xF0) == 0xE0) bytes = 3;
+		else if(((unsigned char)content[i] & 0xF8) == 0xF0) bytes = 4;
+		else bytes = 1;
+
+		if(bytes + i > len) break;
+
+		wchar_t wc;
+		
+		MultiByteToWideChar(CP_UTF8, 0, content + i, bytes, &wc, 1);
+		
+		int w = wcwidth(wc);
+		if(w < 0) w = 2;
+		if(w > show_wid) return -1;
+		if(width + w > show_wid) break;
+		width += w;
+		i += bytes;
+	}
+	
+#else
 	mbstate_t state = {0};
 	const char *ptr = content;
 	wchar_t wc;
-	long width = 0;
-	size_t i = 0, bytes = 0;
 
 	while((bytes = mbrtowc(&wc, ptr, MB_CUR_MAX, &state)) > 0){
 		int w = wcwidth(wc);
@@ -112,6 +218,7 @@ long strict_strcut_index(const char *content, long show_wid){
 		ptr += bytes;
 		i += bytes;
 	}
+#endif
 	return i;
 }
 
