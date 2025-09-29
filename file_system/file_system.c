@@ -19,10 +19,18 @@ const char *home = NULL;
 int cmp(const void *t1, const void *t2){
 	const char *a = *(const char**)t1;
 	const char *b = *(const char**)t2;
+	bool la = isLink(a), lb = isLink(b);
+	bool da = isDir(a) && !la, db = isDir(b) && !lb;
+	if(da && !db) return -1;
+	else if(!da && db) return 1;
+	else if(da && db) return strcmp(a, b);
+	if(la && !lb) return -1;
+	else if(!la && lb) return 1;
+	else if(la && lb) return strcmp(a, b);
 	int result = strcmp(getType(a), getType(b));
 	if(result) return result;
 	int lena = getType(a) - a, lenb = getType(b) - b;
-	int size = min(lena, lenb) - 1;
+	int size = zonda_min(lena, lenb) - 1;
 	result = strncmp(a, b, size);
 	if(result == 0){
 		if(lena > lenb) return 1;
@@ -78,6 +86,26 @@ const char* getType(const char* file_name){
 
 #ifdef _WIN32
 
+static DWORD _get_win_attributes(const char* file_name){
+    if (file_name == NULL) return INVALID_FILE_ATTRIBUTES;
+
+    // 1. 先將 UTF-8 的 char* 轉成 Windows 用的 wchar_t*
+    int size_needed = MultiByteToWideChar(CP_UTF8, 0, file_name, -1, NULL, 0);
+    if (size_needed == 0) return INVALID_FILE_ATTRIBUTES;
+    
+    wchar_t* wide_filename = (wchar_t*)malloc(size_needed * sizeof(wchar_t));
+    if (wide_filename == NULL) return INVALID_FILE_ATTRIBUTES;
+    
+    MultiByteToWideChar(CP_UTF8, 0, file_name, -1, wide_filename, size_needed);
+    
+    // 2. 呼叫 W 版 (Unicode) 的 API
+    DWORD attrs = GetFileAttributesW(wide_filename);
+    
+    free(wide_filename); // 記得釋放記憶體
+    
+    return attrs;
+}
+
 bool isBlkDev(const char* file_name){
 	return 0;
 }
@@ -95,17 +123,17 @@ bool isSocket(const char* file_name){
 }
 
 bool isDir(const char* file_name){
-	DWORD attrs = GetFileAttributesA(file_name);
+	DWORD attrs = _get_win_attributes(file_name);
 	return (attrs != INVALID_FILE_ATTRIBUTES && (attrs & FILE_ATTRIBUTE_DIRECTORY));
 }
 
 bool isFile(const char* file_name){
-	DWORD attrs = GetFileAttributesA(file_name);
+	DWORD attrs = _get_win_attributes(file_name);
 	return (attrs != INVALID_FILE_ATTRIBUTES && !(attrs & FILE_ATTRIBUTE_DIRECTORY));
 }
 
 bool isLink(const char* file_name){
-	DWORD attrs = GetFileAttributesA(file_name);
+	DWORD attrs = _get_win_attributes(file_name);
 	return (attrs != INVALID_FILE_ATTRIBUTES && (attrs & FILE_ATTRIBUTE_REPARSE_POINT));
 }
 
@@ -135,8 +163,11 @@ char** dir_content(const char* dirloc){
 	int n = 0, capacity = 10;
 	char** a = NULL;
 
-	MultiByteToWideChar(CP_UTF8, 0, dirloc, -1, searchPath, PATH_MAX);
+	// 將 UTF-8 路徑轉換為 wchar_t 路徑
+    int size_needed = MultiByteToWideChar(CP_UTF8, 0, dirloc, -1, searchPath, PATH_MAX);
+    if (size_needed == 0 || size_needed > PATH_MAX - 3) return NULL;
 
+	// 加上 "\\*" 來搜尋所有檔案
 	wcscat_s(searchPath, PATH_MAX, L"\\*");
 
 	hFind = FindFirstFileW(searchPath, &findFileData);
@@ -144,7 +175,7 @@ char** dir_content(const char* dirloc){
 	if(hFind == INVALID_HANDLE_VALUE)
 		return NULL;
 
-	a = malloc(capacity * sizeof(char*));
+	a = (char**)malloc(capacity * sizeof(char*));
 	if (a == NULL) {
 		FindClose(hFind);
 		return NULL;
@@ -155,9 +186,16 @@ char** dir_content(const char* dirloc){
 			continue;
 		}
 
+        // --- 加上過濾邏輯，忽略隱藏的系統檔案 ---
+        if ((findFileData.dwFileAttributes & FILE_ATTRIBUTE_HIDDEN) &&
+            (findFileData.dwFileAttributes & FILE_ATTRIBUTE_SYSTEM))
+        {
+            continue;
+        }
+
 		if(n >= capacity){
 			capacity *= 2;
-			char** temp = realloc(a, capacity * sizeof(char*));
+			char** temp = (char**)realloc(a, capacity * sizeof(char*));
 			if(temp == NULL){
 				clean(a);
 				FindClose(hFind);
@@ -178,7 +216,7 @@ char** dir_content(const char* dirloc){
 			return NULL;
 		}
 		n++;
-	}while(FindNextFileW(hFind, &findFileData) != 0);
+	} while(FindNextFileW(hFind, &findFileData) != 0);
 
 	FindClose(hFind);
 
@@ -187,7 +225,7 @@ char** dir_content(const char* dirloc){
 		return NULL;
 	}
 	
-	char** temp = realloc(a, (n + 1) * sizeof(char*));
+	char** temp = (char**)realloc(a, (n + 1) * sizeof(char*));
 	if(temp == NULL) {
 		clean(a);
 		return NULL;
@@ -195,7 +233,7 @@ char** dir_content(const char* dirloc){
 	a = temp;
 	a[n] = NULL;
 
-	sort(a, n); // 如果需要排序，取消註解此行
+	sort(a, n);
 	return a;
 }
 
