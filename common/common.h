@@ -4,7 +4,7 @@
 #include <stddef.h>
 
 void clean(char**);
-size_t min(size_t, size_t);
-size_t max(size_t, size_t);
+size_t zonda_min(size_t, size_t);
+size_t zonda_max(size_t, size_t);
 
 #endif

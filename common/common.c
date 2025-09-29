@@ -10,10 +10,10 @@ void clean(char** result){
 	free(result);
 }
 
-size_t min(size_t a, size_t b){
+size_t zonda_min(size_t a, size_t b){
 	return (a < b) ? a : b;
 }
 
-size_t max(size_t a, size_t b){
+size_t zonda_max(size_t a, size_t b){
 	return (a > b) ? a : b;
 }
