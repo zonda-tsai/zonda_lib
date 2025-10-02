@@ -17,6 +17,7 @@ extern "C" {
 #include "check.h"
 #include "chess.h"
 #include "poker.h"
+#include "geometry.h"
 
 #ifdef __cplusplus
 }
