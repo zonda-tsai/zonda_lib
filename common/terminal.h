@@ -1,6 +1,10 @@
 #ifndef TERMINAL_BRANCH
 #define TERMINAL_BRANCH
 
+#ifdef __cplusplus
+extern "C"{
+#endif
+
 #ifdef _WIN32
 extern HANDLE hstdin_win;
 extern DWORD dwOriginalMode;
@@ -15,5 +19,9 @@ void set_term_size();
 void disableRawMode();
 void enableRawMode();
 void TUI_mode();
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif
