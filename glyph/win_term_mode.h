@@ -1,6 +1,10 @@
 #ifndef WINDOWS_TERMINAL_MODE_FOR_UNICODE_H
 #define WINDOWS_TERMINAL_MODE_FOR_UNICODE_H
 
+#ifdef __cplusplus
+extern "C"{
+#endif
+
 #ifdef _WIN32
 #include <windows.h>
 #endif
@@ -21,5 +25,9 @@ inline void win_term_init() {
 	}
 #endif
 }
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif
