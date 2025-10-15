@@ -1,0 +1,62 @@
+/*
+  Encode rule:
+  Using unsigned long(32 bits):
+    MSB
+    X01 X02 X03 X04 X05 X06 X07 X08 X09 X10 X11 X12 X13 X14 X15 X16
+    X17 X18 X19 X20 X21 X22 X23 X24 X25 X26 X27 X28 X29 X30 X31 X32
+                                                                LSB
+
+   Bit     | Keyboard    | Mouse
+  ---------+------------------------------
+   X01     |            Ctrl
+   X02     |           Shift
+   X03     |          Meta(Alt)
+   X04     |           Mouse
+   X05     | Type_1      | Button_01
+   X06     | Type_2      | Button_02
+   X07     | Special_1   | Wheel
+   X08     | Special_2   | Drag
+   X09     | Special_3   | Click
+   X10     | Special_4   | x1
+   X11     | Special_5   | x2
+   X12     | ASCII_1     | x3
+   X13     | ASCII_2     | x4
+   X14     | ASCII_3     | x5
+   X15     | ASCII_4     | x6
+   X16     | ASCII_5     | x7
+   X17     | ASCII_6     | x8
+   X18     | ASCII_7     | x9
+   X19     | ASCII_8     | x10
+   X20     | Error_1     | x11
+   X21     | Error_2     | x12
+   X22     | Error_3     | y1
+   X23~32  | Reserved    | y2~y11
+
+  Type:
+    ASCII    : 0
+    Special  : 1
+    Error    : 2
+    Reserved : 3
+
+  Specials:
+    F1 ~ F12              : 0 ~ 11
+    Home/End              : 12, 13
+    PgUp/PgDn             : 14, 15
+    Insert/Delete         : 16, 17
+    Up, Down, Left, Right : 18, 19, 20, 21
+    Unicode               : 22 (ASCII, Error and Reserved will be occupied)
+
+  Button:
+       | Normal/Click  | Wheel
+    ---+---------------+----------
+     0 | Nothing       | Up
+     1 | Left          | Down
+     2 | Middle        | Left
+     3 | Right         | Right
+
+  Errors:
+    0   : None
+    1   : TLE
+    2   : Unknown Key
+    3~7 : Reserved
+*/
