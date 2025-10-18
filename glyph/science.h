@@ -68,6 +68,10 @@ extern "C" {
 #define _vert "⊥"
 #define _gaussl "⟦"
 #define _gaussr "⟧"
+#define _hdots "⋯"
+#define _vdots "⋮"
+#define _LtoHdots "⋰"
+#define _HtoLdots "⋱"
 
 #define _up0 "⁰"
 #define _up1 "¹"
@@ -142,6 +146,45 @@ extern "C" {
 #define _down_plus "₊"
 #define _down_minus "₋"
 #define _down_equal "₌"
+
+#define _hbar "ℏ"
+#define _mho "℧"
+#define _degC "℃"
+#define _degF "℉"
+#define _angstrom "Å"
+	
+#define _lu_rbrackets "⎛"
+#define _lm_rbrackets "⎜"
+#define _ld_rbrackets "⎝"
+	
+#define _ru_rbrackets "⎞"
+#define _rm_rbrackets "⎟"
+#define _rd_rbrackets "⎠"
+	
+#define _lu_bbrackets "⎡"
+#define _lm_bbrackets "⎢"
+#define _ld_bbrackets "⎣"
+	
+#define _ru_bbrackets "⎤"
+#define _rm_bbrackets "⎥"
+#define _rd_bbrackets "⎦"
+	
+#define _lu_cbrackets "⎧"
+#define _lmu_cbrackets "⎪"
+#define _lm_cbrackets "⎨"
+#define _lmd_cbrackets "⎪"
+#define _ld_cbrackets "⎩"
+	
+#define _ru_cbrackets "⎫"
+#define _rmu_cbrackets "⎮"
+#define _rm_cbrackets "⎬"
+#define _rmd_cbrackets "⎮"
+#define _rd_cbrackets "⎭"
+
+#define _usum "⎲"
+#define _dsum "⎳"
+
+#define _benzene "⌬"
 
 #ifdef __cplusplus
 }
