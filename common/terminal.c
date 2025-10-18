@@ -300,13 +300,14 @@ modifier:
 		SET_MOUSE_WHEEL(result);
 		SET_MOUSE_BUTTON(result, modifier & 0b11);
 	}
-	else if(modifier & (1 << 5)){
+	else if((modifier & (1 << 5)) && ((modifier & 0b11) != 3) && pd == 'M'){
 		SET_MOUSE_DRAG(result);
 		SET_MOUSE_BUTTON(result, (modifier + 1) & 0b11);
 	}
-	else
+	else{
 		SET_MOUSE_BUTTON(result, (modifier + 1) & 0b11);
-	if(pd == 'M') SET_MOUSE_CLICK(result);
+		if(pd == 'M' && (modifier & 0b11) != 3) SET_MOUSE_CLICK(result);
+	}
 	SET_MOUSE_X(result, x);
 	SET_MOUSE_Y(result, y);
 	return result;
@@ -806,6 +807,7 @@ void disableRawMode(){
 
 void enableRawMode(){
 #ifdef _WIN32
+	SetConsoleCP(CP_UTF8);
 	SetConsoleOutputCP(CP_UTF8);
 	setlocale(LC_ALL, ".UTF8");
 	hIn = GetStdHandle(STD_INPUT_HANDLE);
@@ -843,9 +845,6 @@ void TUI_mode(){
 	set_term_size();
 	clear();
 #ifdef _WIN32
-	SetConsoleCP(CP_UTF8);
-	SetConsoleOutputCP(CP_UTF8);
-	setlocale(LC_ALL, ".UTF8");
 	if(!SetConsoleCtrlHandler(CtrlHandler, TRUE)) exit(1);
 #else
 	setlocale(LC_ALL, "");
