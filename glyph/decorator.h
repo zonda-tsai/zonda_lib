@@ -42,8 +42,13 @@ extern "C"{
 #define _b_lightblack "\x1b[100m"
 
 #define _true_color(stream, n) fprintf(stream, "\x1b[38;5;%dm", n)
-#define _RGB(stream, r, g, b) fprintf(stream, "\x1b[38;2;%d;%d;%dm", r, g, b) 
+#define _RGB(stream, r, g, b) fprintf(stream, "\x1b[38;2;%d;%d;%dm", r, g, b)
+
+#ifdef _HEX
+#undef _HEX
 #define _HEX(stream, rgb) _RGB(stream, rgb / 256 / 256, (rgb / 256) % 256, rgb % 256)
+#endif
+
 #define _b_true_color(stream, n) fprintf(stream, "\x1b[48;5;%dm", n)
 #define _b_RGB(stream, r, g, b) fprintf(stream, "\x1b[48;2;%d;%d;%dm", r, g, b)
 #define _b_HEX(stream, rgb) _b_RGB(stream, rgb / 256 / 256, (rgb / 256) % 256, rgb % 256)

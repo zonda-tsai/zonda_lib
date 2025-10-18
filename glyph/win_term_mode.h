@@ -9,7 +9,7 @@ extern "C"{
 #include <windows.h>
 #endif
 
-inline void win_term_init() {
+static inline void win_term_init() {
 #ifdef _WIN32
 	HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
 	if (hOut == INVALID_HANDLE_VALUE) {
