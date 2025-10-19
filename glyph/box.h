@@ -5,8 +5,6 @@
 extern "C"{
 #endif
 
-#include "win_term_mode.h"
-
 #define _h_line "─"
 #define _v_line "│"
 #define _lu_corner "┌"

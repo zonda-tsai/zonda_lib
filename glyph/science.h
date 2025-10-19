@@ -5,8 +5,6 @@
 extern "C" {
 #endif
 
-#include "win_term_mode.h"
-
 // mathematics & sciences
 #define _nabla "∇"
 #define _partial "∂"

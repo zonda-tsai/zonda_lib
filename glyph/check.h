@@ -5,8 +5,6 @@
 extern "C"{
 #endif
 
-#include "win_term_mode.h"
-
 #define _checked "✓"
 #define _unchecked "✗"
 

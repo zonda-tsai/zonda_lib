@@ -5,7 +5,6 @@
 extern "C" {
 #endif
 
-#include "win_term_mode.h"
 #include "greek.h"
 #include "science.h"
 #include "special_fonts.h"

@@ -5,8 +5,6 @@
 extern "C"{
 #endif
 
-#include "win_term_mode.h"
-
 #define _white_king "♔"
 #define _white_queen "♕"
 #define _white_rook "♖"

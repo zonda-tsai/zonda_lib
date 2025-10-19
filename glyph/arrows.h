@@ -4,8 +4,6 @@
 #ifdef __cplusplus
 extern "C"{
 #endif
-
-#include "win_term_mode.h"
 	
 #define _l_arrow "←"
 #define _r_arrow "→"

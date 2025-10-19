@@ -5,8 +5,6 @@
 extern "C"{
 #endif
 
-#include "win_term_mode.h"
-
 #define _black_sapde "♠"
 #define _black_heart "♥"
 #define _black_diamond "♦"

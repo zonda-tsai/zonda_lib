@@ -5,8 +5,6 @@
 extern "C"{
 #endif
 
-#include "win_term_mode.h"
-	
 // Cursive
 #define _cA "𝓐"
 #define _cB "𝓑"
@@ -151,9 +149,9 @@ extern "C"{
 #define _dsg "𝕘"
 #define _dsh "𝕙"
 #define _dsi "𝕚"
+#define _dsl "𝕝"
 #define _dsj "𝕛"
 #define _dsk "𝕜"
-#define _dsl "𝕝"
 #define _dsm "𝕞"
 #define _dsn "𝕟"
 #define _dso "𝕠"

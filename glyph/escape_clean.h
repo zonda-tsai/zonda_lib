@@ -5,8 +5,6 @@
 extern "C"{
 #endif
 
-#include "win_term_mode.h"
-
 #define _clear "\x1b[2J\x1b[1;1H"
 #define _clear_line_end "\x1b[0K"
 #define _clear_line_start "\x1b[1K"

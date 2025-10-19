@@ -5,8 +5,6 @@
 extern "C" {
 #endif
 
-#include "win_term_mode.h"
-
 #define _enable_mouse_sgr "\x1b[?1006h"
 #define _disable_mouse_sgr "\x1b[?1006l"
 #define _enable_mouse_drag "\x1b[?1002h"

@@ -4,8 +4,6 @@
 #ifdef __cplusplus
 extern "C"{
 #endif
-
-#include "win_term_mode.h"
 	
 #define _red "\x1b[31m"
 #define _green "\x1b[32m"
@@ -43,6 +41,23 @@ extern "C"{
 
 #define _true_color(stream, n) fprintf(stream, "\x1b[38;5;%dm", n)
 #define _RGB(stream, r, g, b) fprintf(stream, "\x1b[38;2;%d;%d;%dm", r, g, b)
+
+#define _zonda_warn "\x1b[38;2;158;81;73m"
+#define _zonda_b_warn "\x1b[48;2;158;81;73m"
+#define _zonda_main "\x1b[38;2;57;58;87m"
+#define _zonda_b_main "\x1b[48;2;57;58;87m"
+#define _zonda_lightmain "\x1b[38;2;101;107;153m"
+#define _zonda_b_lightmain "\x1b[48;2;101;107;153m"
+#define _zonda_sub "\x1b[38;2;59;74;61m"
+#define _zonda_b_sub "\x1b[48;2;59;74;61m"
+#define _zonda_lightsub "\x1b[38;2;81;94;82m"
+#define _zonda_b_lightsub "\x1b[48;2;81;94;82m"
+#define _zonda_annotation "\x1b[38;2;192;192;192m"
+#define _zonda_b_annotation "\x1b[48;2;64;64;64m"
+#define _zonda_highlight "\x1b[38;2;175;95;0m"
+#define _zonda_b_highlight "\x1b[48;2;175;95;0m"
+#define _zonda_gold "\x1b[38;2;186;156;108m"
+#define _zonda_b_gold "\x1b[48;2;186;156;108m"
 
 #ifdef _HEX
 #undef _HEX

@@ -4,8 +4,6 @@
 #ifdef _cplusplus
 extern "C"{
 #endif
-
-#include "win_term_mode.h"
 	
 #define _cursor_to(stream, x, y) fprintf(stream, "\x1b[%d;%dH", y, x)
 #define _cursor_u(stream, n) fprintf(stream, "\x1b[%dA", n)

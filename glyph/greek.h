@@ -5,8 +5,6 @@
 extern "C" {
 #endif
 
-#include "win_term_mode.h"
-
 // Capital Greeks
 #define _Alpha "Α"
 #define _Beta "Β"
