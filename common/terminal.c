@@ -841,6 +841,24 @@ void enableRawMode(){
     fflush(stdout);
 }
 
+void WINterm_mode(){
+#ifdef _WIN32
+	SetConsoleCP(CP_UTF8);
+	SetConsoleOutputCP(CP_UTF8);
+	setlocale(LC_ALL, ".UTF8");
+	hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+
+	if(hOut == INVALID_HANDLE_VALUE) exit(1);
+
+	if(!GetConsoleMode(hOut, &dwOriginalOutMode)) exit(1);
+
+	DWORD dwOutMode = dwOriginalOutMode;
+	dwOutMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
+
+	if(!SetConsoleMode(hOut, dwOutMode)) exit(1);
+#endif
+}
+
 void TUI_mode(){
 	set_term_size();
 	clear();

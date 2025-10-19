@@ -101,6 +101,7 @@ char* escape_sequence(unsigned long);
 void set_term_size();
 void disableRawMode();
 void enableRawMode();
+void WINterm_mode();
 void TUI_mode();
 
 #ifdef __cplusplus
