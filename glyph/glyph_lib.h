@@ -18,6 +18,10 @@ extern "C" {
 #include "poker.h"
 #include "geometry.h"
 #include "mouse.h"
+#include "screen_buffer.h"
+#include "bracket_paste.h"
+#include "focus_events.h"
+#include "extension.h"
 
 #ifdef __cplusplus
 }

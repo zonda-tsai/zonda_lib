@@ -14,6 +14,12 @@ extern "C"{
 #define _cursor_restore "\x1b[u"
 #define _cursor_hide "\x1b[?25l"
 #define _cursor_show "\x1b[?25h"
+#define _blinking_block_cursor "\x1b[1 q"
+#define _block_cursor "\x1b[2 q"
+#define _blinking_underline_cursor "\x1b[3 q"
+#define _underline_cursor "\x1b[4 q"
+#define _blinking_Ibar_cursor "\x1b[5 q"
+#define _Ibar_cursor "\x1b[6 q"
 
 #ifdef __cplusplus
 }

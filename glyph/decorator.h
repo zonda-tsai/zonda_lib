@@ -41,6 +41,8 @@ extern "C"{
 
 #define _true_color(stream, n) fprintf(stream, "\x1b[38;5;%dm", n)
 #define _RGB(stream, r, g, b) fprintf(stream, "\x1b[38;2;%d;%d;%dm", r, g, b)
+#define _underline_color(stream, r, g, b) fprintf(stdout, "\x1b[58m;5;%d;%d;%dm", r, g, b);
+#define _overline_color(stream, r, g, b) fprintf(stdout, "\x1b[59m;5;%d;%d;%dm", r, g, b);
 
 #define _zonda_warn "\x1b[38;2;158;81;73m"
 #define _zonda_b_warn "\x1b[48;2;158;81;73m"
@@ -70,6 +72,8 @@ extern "C"{
 #define _bold "\x1b[1m"
 #define _italic "\x1b[3m"
 #define _underline "\x1b[4m"
+#define _underline_double "\x1b[4:2m"
+#define _underline_wave "\x1b[4:3m"
 #define _strikeline "\x1b[9m"
 #define _overline "\x1b[53m"
 #define _faint "\x1b[2m"
@@ -85,6 +89,14 @@ extern "C"{
 #define _cancel_faint "\x1b[22m"
 #define _cancel_sparkle "\x1b[25m"
 #define _end "\x1b[0m"
+
+#define _sixel_start "\x1bPq"
+#define _sixel_define_color_hls(stream, ID, h, l, s) fprintf(stream, "#%d;1;%d;%d;%d", ID, (int)(r / 360), l, s)
+#define _sixel_define_color_rgb(stream, ID, r, g, b) fprintf(stream, "#%d;2;%d;%d;%d", ID, (int)(r / 2.55), (int)(g / 2.55), (int)(b / 2.55))
+#define _sixel_using_color(stream, ID) fprintf(stream, "#%d", ID)
+#define _sixel_pixel_select(stream, n) fprintf(stream, "%c", '?' + n)
+#define _sixel_newline(stream) fprintf(stream, "-")
+#define _sixel_end "\x1b\\"
 
 #ifdef __cplusplus
 }
